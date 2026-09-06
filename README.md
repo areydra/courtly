@@ -15,7 +15,7 @@ A React Native (Expo) app for browsing sports facilities and booking a court —
 If you just want to try the app on an Android device without setting up the dev environment, install the prebuilt APK committed to this repo:
 
 ```
-releases/courtly-android.apk
+releases/courtly-android.apk.zip
 ```
 
 Download that file, transfer it to an Android device (or an emulator), and install it directly — enable "Install unknown apps" for your file manager/browser if prompted. This build points at the same API environment as `main`, so no additional setup is needed.
