@@ -1,6 +1,10 @@
+import { useCallback } from 'react';
+
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { LinearGradient } from 'expo-linear-gradient';
+import { useRouter } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Colors } from '@/constants/theme';
@@ -14,12 +18,19 @@ import RacketIcon from './components/RacketIcon';
 
 export default function WelcomeScreen() {
     const insets = useSafeAreaInsets();
+    const router = useRouter();
+
+    const handlePressGetStarted = useCallback(() => {
+        router.push('/register');
+    }, [router]);
 
     return (
         <View
             style={styles.screen}
             testID="welcome-screen"
         >
+            <StatusBar style="light" />
+
             <View style={styles.hero}>
                 <LinearGradient
                     colors={[Colors.teal700, Colors.teal800, Colors.teal900]}
@@ -75,6 +86,7 @@ export default function WelcomeScreen() {
                             styles.primaryButton,
                             pressed && styles.primaryButtonPressed,
                         ]}
+                        onPress={handlePressGetStarted}
                         testID="welcome-get-started-button"
                     >
                         <Text style={styles.primaryButtonText}>Get started</Text>

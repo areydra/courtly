@@ -11,6 +11,7 @@ export const Colors = {
     gray100: '#F1F3F1',
     gray200: '#DDE3E0',
     gray500: '#8A968F',
+    red600: '#DC2626',
     whiteOverlay14: 'rgba(255,255,255,0.14)',
     whiteOverlay16: 'rgba(255,255,255,0.16)',
     whiteOverlay22: 'rgba(255,255,255,0.22)',
@@ -18,6 +19,7 @@ export const Colors = {
 } as const;
 
 export const Fonts = {
+    ManropeRegular: 'Manrope_400Regular',
     ManropeMedium: 'Manrope_500Medium',
     ManropeSemiBold: 'Manrope_600SemiBold',
     ManropeBold: 'Manrope_700Bold',
