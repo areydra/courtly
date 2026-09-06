@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     listContent: {
         paddingTop: 20,
         paddingHorizontal: 24,
-        paddingBottom: 96,
+        paddingBottom: 20,
         gap: 16,
     },
     resultsLabel: {

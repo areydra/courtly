@@ -1,7 +1,4 @@
-import { useCallback } from 'react';
-
 import { Pressable, Text, View } from 'react-native';
-import { useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -12,10 +9,8 @@ import { useProfileSheetStore } from '@/stores/useProfileSheetStore';
 import { useUserStore } from '@/stores/useUserStore';
 
 import styles from './styles';
-import BookingsTabIcon from './components/BookingsTabIcon';
 import CityFilterList from './components/CityFilterList';
 import FacilityList from './components/FacilityList';
-import HomeTabIcon from './components/HomeTabIcon';
 import LogoutConfirmSheet from './components/LogoutConfirmSheet';
 import ProfileSheet from './components/ProfileSheet';
 import SearchInput from './components/SearchInput';
@@ -34,14 +29,9 @@ export default function HomeScreen() {
 }
 
 function HomeScreenContent() {
-    const router = useRouter();
     const insets = useSafeAreaInsets();
     const openProfileSheet = useProfileSheetStore((state) => state.open);
     const name = useUserStore((state) => state.name);
-
-    const handlePressBookings = useCallback(() => {
-        router.push('/my-bookings');
-    }, [router]);
 
     return (
         <View
@@ -68,24 +58,6 @@ function HomeScreenContent() {
             </View>
 
             <FacilityList />
-
-            <View style={[styles.tabBar, { paddingBottom: 8 + insets.bottom }]}>
-                <View
-                    style={styles.tabItem}
-                    testID="home-tab-home"
-                >
-                    <HomeTabIcon />
-                    <Text style={styles.tabLabelActive}>Home</Text>
-                </View>
-                <Pressable
-                    style={styles.tabItem}
-                    onPress={handlePressBookings}
-                    testID="home-tab-bookings"
-                >
-                    <BookingsTabIcon />
-                    <Text style={styles.tabLabelInactive}>Bookings</Text>
-                </Pressable>
-            </View>
 
             <ProfileSheet />
             <LogoutConfirmSheet />

@@ -4,10 +4,7 @@ import { Colors, Fonts } from '@/constants/theme';
 
 const styles = StyleSheet.create({
     tabBar: {
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0,
+        flexShrink: 0,
         paddingTop: 12,
         backgroundColor: Colors.cream50,
         borderTopWidth: 1,

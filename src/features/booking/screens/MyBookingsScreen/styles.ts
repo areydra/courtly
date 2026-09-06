@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     listContent: {
         paddingTop: 16,
         paddingHorizontal: 24,
-        paddingBottom: 96,
+        paddingBottom: 20,
         flexDirection: 'column',
         gap: 12,
     },

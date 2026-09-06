@@ -2,14 +2,18 @@ import Svg, { Path, Rect } from 'react-native-svg';
 
 import { Colors } from '@/constants/theme';
 
-export default function BookingsIcon() {
+interface BookingsIconProps {
+    active: boolean;
+}
+
+export default function BookingsIcon({ active }: BookingsIconProps) {
     return (
         <Svg
             width={22}
             height={22}
             viewBox="0 0 24 24"
             fill="none"
-            stroke={Colors.teal700}
+            stroke={active ? Colors.teal700 : Colors.gray500}
             strokeWidth={2}
             strokeLinecap="round"
             strokeLinejoin="round"

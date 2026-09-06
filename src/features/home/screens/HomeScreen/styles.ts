@@ -36,35 +36,6 @@ const styles = StyleSheet.create({
         fontFamily: Fonts.ManropeExtraBold,
         fontSize: 15,
     },
-    tabBar: {
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        paddingTop: 12,
-        paddingBottom: 8,
-        backgroundColor: Colors.cream50,
-        borderTopWidth: 1,
-        borderTopColor: Colors.gray150,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-around',
-    },
-    tabItem: {
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: 4,
-    },
-    tabLabelActive: {
-        fontSize: 11,
-        fontFamily: Fonts.ManropeBold,
-        color: Colors.teal700,
-    },
-    tabLabelInactive: {
-        fontSize: 11,
-        fontFamily: Fonts.ManropeSemiBold,
-        color: Colors.gray500,
-    },
 });
 
 export default styles;

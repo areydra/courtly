@@ -2,14 +2,18 @@ import Svg, { Path } from 'react-native-svg';
 
 import { Colors } from '@/constants/theme';
 
-export default function HomeIcon() {
+interface HomeIconProps {
+    active: boolean;
+}
+
+export default function HomeIcon({ active }: HomeIconProps) {
     return (
         <Svg
             width={22}
             height={22}
             viewBox="0 0 24 24"
             fill="none"
-            stroke={Colors.gray500}
+            stroke={active ? Colors.teal700 : Colors.gray500}
             strokeWidth={2}
             strokeLinecap="round"
             strokeLinejoin="round"

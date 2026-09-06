@@ -1,7 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 
 import { ActivityIndicator, FlatList, Text, View } from 'react-native';
-import { useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 
 import { Colors } from '@/constants/theme';
@@ -18,7 +17,6 @@ import BookingCard from './components/BookingCard';
 import BookingCardSkeleton from './components/BookingCardSkeleton';
 import BookingDetailSheet from './components/BookingDetailSheet';
 import type { SheetStep } from './components/BookingDetailSheet';
-import BottomTabBar from './components/BottomTabBar';
 import Header from './components/Header';
 import type { TabKey } from './utils';
 import { buildCancelResult, formatDateTimeLabel, getCategoryForTab, getStatusLabel, isUpcoming } from './utils';
@@ -27,7 +25,6 @@ const SKELETON_COUNT = 3;
 const SKELETON_ITEMS = Array.from({ length: SKELETON_COUNT }, (_, index) => index);
 
 export default function MyBookingsScreen() {
-    const router = useRouter();
     const today = useMemo(() => new Date(), []);
 
     const [activeTab, setActiveTab] = useState<TabKey>('all');
@@ -113,10 +110,6 @@ export default function MyBookingsScreen() {
         });
     }, [activeBookingId, cancelBooking]);
 
-    const handlePressHome = useCallback(() => {
-        router.push('/home');
-    }, [router]);
-
     return (
         <View
             style={styles.screen}
@@ -170,8 +163,6 @@ export default function MyBookingsScreen() {
                     }
                 />
             )}
-
-            <BottomTabBar onPressHome={handlePressHome} />
 
             <BookingDetailSheet
                 sheetStep={sheetStep}
