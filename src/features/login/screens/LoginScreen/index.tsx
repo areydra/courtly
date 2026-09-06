@@ -27,7 +27,11 @@ export default function LoginScreen() {
     const loginMutation = useLogin();
 
     const handlePressBack = useCallback(() => {
-        router.back();
+        if (router.canGoBack()) {
+            router.back();
+        } else {
+            router.replace('/');
+        }
     }, [router]);
 
     const handlePressSignUp = useCallback(() => {
@@ -59,8 +63,11 @@ export default function LoginScreen() {
             return;
         }
 
-        loginMutation.mutate({ email, password });
-    }, [loginMutation, email, password]);
+        loginMutation.mutate(
+            { email, password },
+            { onSuccess: () => router.replace('/home') },
+        );
+    }, [loginMutation, email, password, router]);
 
     return (
         <View

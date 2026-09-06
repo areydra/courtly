@@ -69,8 +69,11 @@ export default function RegisterScreen() {
             return;
         }
 
-        registerMutation.mutate({ name, email, password });
-    }, [registerMutation, name, email, password]);
+        registerMutation.mutate(
+            { name, email, password },
+            { onSuccess: () => router.replace('/home') },
+        );
+    }, [registerMutation, name, email, password, router]);
 
     return (
         <View
