@@ -8,9 +8,10 @@ import CheckCircleIcon from './CheckCircleIcon';
 interface SuccessStepProps {
     bookingResult: BookingResult;
     onDone: () => void;
+    onSeeBookings: () => void;
 }
 
-export default function SuccessStep({ bookingResult, onDone }: SuccessStepProps) {
+export default function SuccessStep({ bookingResult, onDone, onSeeBookings }: SuccessStepProps) {
     return (
         <View
             style={styles.container}
@@ -64,6 +65,7 @@ export default function SuccessStep({ bookingResult, onDone }: SuccessStepProps)
             <View style={styles.actionsRow}>
                 <Pressable
                     style={styles.secondaryButton}
+                    onPress={onSeeBookings}
                     testID="booking-see-bookings-button"
                 >
                     <Text style={styles.secondaryButtonText}>See bookings</Text>

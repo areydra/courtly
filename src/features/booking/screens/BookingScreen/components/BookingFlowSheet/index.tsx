@@ -26,6 +26,7 @@ interface BookingFlowSheetProps {
     onAcceptConfirm: () => void;
     onDoneSuccess: () => void;
     onDismissError: () => void;
+    onSeeBookings: () => void;
 }
 
 export default function BookingFlowSheet({
@@ -38,6 +39,7 @@ export default function BookingFlowSheet({
     onAcceptConfirm,
     onDoneSuccess,
     onDismissError,
+    onSeeBookings,
 }: BookingFlowSheetProps) {
     return (
         <BottomSheet
@@ -61,6 +63,7 @@ export default function BookingFlowSheet({
                 <SuccessStep
                     bookingResult={bookingResult}
                     onDone={onDoneSuccess}
+                    onSeeBookings={onSeeBookings}
                 />
             )}
             {flowStep === 'error' && (

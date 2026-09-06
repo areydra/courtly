@@ -20,6 +20,7 @@ export const Colors = {
     amber500: '#F5A524',
     red600: '#DC2626',
     red700: '#C4432B',
+    redTint100: '#FBE9E7',
     redTint200: '#F0D3CC',
     whiteOverlay14: 'rgba(255,255,255,0.14)',
     whiteOverlay16: 'rgba(255,255,255,0.16)',

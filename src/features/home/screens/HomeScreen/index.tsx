@@ -1,4 +1,7 @@
+import { useCallback } from 'react';
+
 import { Pressable, Text, View } from 'react-native';
+import { useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -31,9 +34,14 @@ export default function HomeScreen() {
 }
 
 function HomeScreenContent() {
+    const router = useRouter();
     const insets = useSafeAreaInsets();
     const openProfileSheet = useProfileSheetStore((state) => state.open);
     const name = useUserStore((state) => state.name);
+
+    const handlePressBookings = useCallback(() => {
+        router.push('/my-bookings');
+    }, [router]);
 
     return (
         <View
@@ -69,13 +77,14 @@ function HomeScreenContent() {
                     <HomeTabIcon />
                     <Text style={styles.tabLabelActive}>Home</Text>
                 </View>
-                <View
+                <Pressable
                     style={styles.tabItem}
+                    onPress={handlePressBookings}
                     testID="home-tab-bookings"
                 >
                     <BookingsTabIcon />
                     <Text style={styles.tabLabelInactive}>Bookings</Text>
-                </View>
+                </Pressable>
             </View>
 
             <ProfileSheet />

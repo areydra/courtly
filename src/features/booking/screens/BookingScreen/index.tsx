@@ -1,6 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
 
 import { ActivityIndicator, ScrollView, Text, View } from 'react-native';
+import { useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 
 import { Colors } from '@/constants/theme';
@@ -28,6 +29,7 @@ interface BookingScreenProps {
 }
 
 export default function BookingScreen({ facilityId, facilityName }: BookingScreenProps) {
+    const router = useRouter();
     const today = useMemo(() => new Date(), []);
     const [courtId, setCourtId] = useState('');
     const [selectedDateStr, setSelectedDateStr] = useState(() => toIsoDate(today));
@@ -164,6 +166,10 @@ export default function BookingScreen({ facilityId, facilityName }: BookingScree
         setBookingResult(null);
     }, []);
 
+    const handleSeeBookings = useCallback(() => {
+        router.push('/my-bookings');
+    }, [router]);
+
     return (
         <View
             style={styles.screen}
@@ -244,6 +250,7 @@ export default function BookingScreen({ facilityId, facilityName }: BookingScree
                 onAcceptConfirm={handleAcceptConfirm}
                 onDoneSuccess={handleDoneSuccess}
                 onDismissError={handleDismissError}
+                onSeeBookings={handleSeeBookings}
             />
         </View>
     );
