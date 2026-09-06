@@ -25,6 +25,7 @@ export default function RegisterScreen() {
     const [nameError, setNameError] = useState<string | null>(null);
     const [emailError, setEmailError] = useState<string | null>(null);
     const [passwordError, setPasswordError] = useState<string | null>(null);
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
     const registerMutation = useRegister();
 
@@ -49,6 +50,10 @@ export default function RegisterScreen() {
     const handleChangePassword = useCallback((value: string) => {
         setPassword(value);
         setPasswordError(null);
+    }, []);
+
+    const handleTogglePasswordVisibility = useCallback(() => {
+        setIsPasswordVisible((visible) => !visible);
     }, []);
 
     const handlePressCreateAccount = useCallback(() => {
@@ -168,7 +173,7 @@ export default function RegisterScreen() {
                                 <View style={styles.passwordWrapper}>
                                     <TextInput
                                         placeholder="At least 8 characters"
-                                        secureTextEntry
+                                        secureTextEntry={!isPasswordVisible}
                                         value={password}
                                         onChangeText={handleChangePassword}
                                         style={[
@@ -183,6 +188,7 @@ export default function RegisterScreen() {
                                     />
                                     <Pressable
                                         style={styles.passwordToggle}
+                                        onPress={handleTogglePasswordVisibility}
                                         testID="register-password-toggle-button"
                                     >
                                         <EyeIcon />

@@ -22,6 +22,7 @@ export default function LoginScreen() {
     const [password, setPassword] = useState('');
     const [emailError, setEmailError] = useState<string | null>(null);
     const [passwordError, setPasswordError] = useState<string | null>(null);
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
     const loginMutation = useLogin();
 
@@ -41,6 +42,10 @@ export default function LoginScreen() {
     const handleChangePassword = useCallback((value: string) => {
         setPassword(value);
         setPasswordError(null);
+    }, []);
+
+    const handleTogglePasswordVisibility = useCallback(() => {
+        setIsPasswordVisible((visible) => !visible);
     }, []);
 
     const handlePressLogIn = useCallback(() => {
@@ -133,7 +138,7 @@ export default function LoginScreen() {
                                 <View style={styles.passwordWrapper}>
                                     <TextInput
                                         placeholder="Enter your password"
-                                        secureTextEntry
+                                        secureTextEntry={!isPasswordVisible}
                                         value={password}
                                         onChangeText={handleChangePassword}
                                         style={[
@@ -148,6 +153,7 @@ export default function LoginScreen() {
                                     />
                                     <Pressable
                                         style={styles.passwordToggle}
+                                        onPress={handleTogglePasswordVisibility}
                                         testID="login-password-toggle-button"
                                     >
                                         <EyeIcon />
