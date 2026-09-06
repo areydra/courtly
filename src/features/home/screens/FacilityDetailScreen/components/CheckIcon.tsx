@@ -2,23 +2,19 @@ import Svg, { Path } from 'react-native-svg';
 
 import { Colors } from '@/constants/theme';
 
-interface BackIconProps {
-    color?: string;
-}
-
-export default function BackIcon({ color = Colors.ink900 }: BackIconProps) {
+export default function CheckIcon() {
     return (
         <Svg
-            width={18}
-            height={18}
+            width={12}
+            height={12}
             viewBox="0 0 24 24"
             fill="none"
-            stroke={color}
+            stroke={Colors.slate600}
             strokeWidth={2.2}
             strokeLinecap="round"
             strokeLinejoin="round"
         >
-            <Path d="M15 18l-6-6 6-6" />
+            <Path d="M4 12l5 5L20 6" />
         </Svg>
     );
 }

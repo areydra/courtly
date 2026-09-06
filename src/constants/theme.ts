@@ -24,6 +24,7 @@ export const Colors = {
     whiteOverlay22: 'rgba(255,255,255,0.22)',
     blackOverlay65: 'rgba(6,12,10,0.65)',
     ink900Overlay45: 'rgba(18,32,28,0.45)',
+    ink900Overlay55: 'rgba(18,32,28,0.55)',
     ink900Overlay72: 'rgba(18,32,28,0.72)',
 } as const;
 

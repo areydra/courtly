@@ -1,4 +1,7 @@
-import { Image, Text, View } from 'react-native';
+import { useCallback } from 'react';
+
+import { Image, Pressable, Text, View } from 'react-native';
+import { useRouter } from 'expo-router';
 
 import type { Facility } from '@/features/home/types/facility.types';
 import { capitalize, formatRupiah } from '@/utils/format';
@@ -12,9 +15,16 @@ interface FacilityCardProps {
 }
 
 export default function FacilityCard({ facility }: FacilityCardProps) {
+    const router = useRouter();
+
+    const handlePress = useCallback(() => {
+        router.push(`/facility-detail/${facility.id}`);
+    }, [router, facility.id]);
+
     return (
-        <View
+        <Pressable
             style={styles.card}
+            onPress={handlePress}
             testID={`home-facility-card-${facility.id}`}
         >
             <View style={styles.imageWrapper}>
@@ -61,6 +71,6 @@ export default function FacilityCard({ facility }: FacilityCardProps) {
                     ))}
                 </View>
             </View>
-        </View>
+        </Pressable>
     );
 }
