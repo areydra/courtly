@@ -8,38 +8,30 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Colors } from '@/constants/theme';
 import BackIcon from '@/components/BackIcon';
 import EyeIcon from '@/components/EyeIcon';
-import { nameSchema, emailSchema, passwordSchema } from '@/utils/validation';
+import { emailSchema, passwordSchema } from '@/utils/validation';
 
 import styles from './styles';
-import { useRegister } from '../../hooks/useRegister';
+import { useLogin } from '../../hooks/useLogin';
 
-export default function RegisterScreen() {
+export default function LoginScreen() {
     const insets = useSafeAreaInsets();
     const router = useRouter();
-    const [isFullNameFocused, setIsFullNameFocused] = useState(false);
     const [isEmailFocused, setIsEmailFocused] = useState(false);
     const [isPasswordFocused, setIsPasswordFocused] = useState(false);
-    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [nameError, setNameError] = useState<string | null>(null);
     const [emailError, setEmailError] = useState<string | null>(null);
     const [passwordError, setPasswordError] = useState<string | null>(null);
 
-    const registerMutation = useRegister();
+    const loginMutation = useLogin();
 
     const handlePressBack = useCallback(() => {
         router.back();
     }, [router]);
 
-    const handlePressLogIn = useCallback(() => {
-        router.push('/login');
+    const handlePressSignUp = useCallback(() => {
+        router.push('/register');
     }, [router]);
-
-    const handleChangeName = useCallback((value: string) => {
-        setName(value);
-        setNameError(null);
-    }, []);
 
     const handleChangeEmail = useCallback((value: string) => {
         setEmail(value);
@@ -51,26 +43,24 @@ export default function RegisterScreen() {
         setPasswordError(null);
     }, []);
 
-    const handlePressCreateAccount = useCallback(() => {
-        const nameResult = nameSchema.safeParse(name);
+    const handlePressLogIn = useCallback(() => {
         const emailResult = emailSchema.safeParse(email);
         const passwordResult = passwordSchema.safeParse(password);
 
-        setNameError(nameResult.success ? null : nameResult.error.issues[0].message);
         setEmailError(emailResult.success ? null : emailResult.error.issues[0].message);
         setPasswordError(passwordResult.success ? null : passwordResult.error.issues[0].message);
 
-        if (!nameResult.success || !emailResult.success || !passwordResult.success) {
+        if (!emailResult.success || !passwordResult.success) {
             return;
         }
 
-        registerMutation.mutate({ name, email, password });
-    }, [registerMutation, name, email, password]);
+        loginMutation.mutate({ email, password });
+    }, [loginMutation, email, password]);
 
     return (
         <View
             style={styles.screen}
-            testID="register-screen"
+            testID="login-screen"
         >
             <StatusBar style="dark" />
 
@@ -81,7 +71,7 @@ export default function RegisterScreen() {
                         pressed && styles.backButtonPressed,
                     ]}
                     onPress={handlePressBack}
-                    testID="register-back-button"
+                    testID="login-back-button"
                 >
                     <BackIcon />
                 </Pressable>
@@ -92,50 +82,25 @@ export default function RegisterScreen() {
                 contentContainerStyle={styles.scrollContent}
             >
                 <View style={styles.copy}>
-                    <Text style={styles.heading}>Create your account</Text>
+                    <Text style={styles.heading}>Welcome back</Text>
                     <Text style={styles.subheading}>
-                        Join to browse courts and book facilities near you.
+                        Log in to find and book your next court.
                     </Text>
                 </View>
 
-                {registerMutation.isSuccess ? (
+                {loginMutation.isSuccess ? (
                     <View
                         style={styles.successBox}
-                        testID="register-success-message"
+                        testID="login-success-message"
                     >
-                        <Text style={styles.successTitle}>Account created</Text>
+                        <Text style={styles.successTitle}>Logged in</Text>
                         <Text style={styles.successSubtitle}>
-                            Welcome, {registerMutation.data.user.name}. Your account is ready.
+                            Welcome back, {loginMutation.data.user.name}.
                         </Text>
                     </View>
                 ) : (
                     <>
                         <View style={styles.form}>
-                            <View style={styles.field}>
-                                <Text style={styles.fieldLabel}>Full name</Text>
-                                <TextInput
-                                    placeholder="Jordan Lee"
-                                    value={name}
-                                    onChangeText={handleChangeName}
-                                    style={[
-                                        styles.input,
-                                        isFullNameFocused && styles.inputFocused,
-                                        nameError && styles.inputError,
-                                    ]}
-                                    onFocus={() => setIsFullNameFocused(true)}
-                                    onBlur={() => setIsFullNameFocused(false)}
-                                    testID="register-full-name-input"
-                                />
-                                {nameError ? (
-                                    <Text
-                                        style={styles.errorText}
-                                        testID="register-full-name-error"
-                                    >
-                                        {nameError}
-                                    </Text>
-                                ) : null}
-                            </View>
-
                             <View style={styles.field}>
                                 <Text style={styles.fieldLabel}>Email address</Text>
                                 <TextInput
@@ -151,12 +116,12 @@ export default function RegisterScreen() {
                                     ]}
                                     onFocus={() => setIsEmailFocused(true)}
                                     onBlur={() => setIsEmailFocused(false)}
-                                    testID="register-email-input"
+                                    testID="login-email-input"
                                 />
                                 {emailError ? (
                                     <Text
                                         style={styles.errorText}
-                                        testID="register-email-error"
+                                        testID="login-email-error"
                                     >
                                         {emailError}
                                     </Text>
@@ -167,7 +132,7 @@ export default function RegisterScreen() {
                                 <Text style={styles.fieldLabel}>Password</Text>
                                 <View style={styles.passwordWrapper}>
                                     <TextInput
-                                        placeholder="At least 8 characters"
+                                        placeholder="Enter your password"
                                         secureTextEntry
                                         value={password}
                                         onChangeText={handleChangePassword}
@@ -179,11 +144,11 @@ export default function RegisterScreen() {
                                         ]}
                                         onFocus={() => setIsPasswordFocused(true)}
                                         onBlur={() => setIsPasswordFocused(false)}
-                                        testID="register-password-input"
+                                        testID="login-password-input"
                                     />
                                     <Pressable
                                         style={styles.passwordToggle}
-                                        testID="register-password-toggle-button"
+                                        testID="login-password-toggle-button"
                                     >
                                         <EyeIcon />
                                     </Pressable>
@@ -191,56 +156,52 @@ export default function RegisterScreen() {
                                 {passwordError ? (
                                     <Text
                                         style={styles.errorText}
-                                        testID="register-password-error"
+                                        testID="login-password-error"
                                     >
                                         {passwordError}
                                     </Text>
-                                ) : (
-                                    <Text style={styles.helperText}>
-                                        Use 8+ characters with a number and a symbol.
-                                    </Text>
-                                )}
+                                ) : null}
                             </View>
                         </View>
 
-                        <View style={{ flex: 1, minHeight: 16 }} />
+                        <View style={{ flex: 1, minHeight: 24 }} />
 
                         <Pressable
                             style={({ pressed }) => [
                                 styles.submitButton,
                                 pressed && styles.submitButtonPressed,
-                                registerMutation.isPending && styles.submitButtonDisabled,
+                                loginMutation.isPending && styles.submitButtonDisabled,
                             ]}
-                            onPress={handlePressCreateAccount}
-                            disabled={registerMutation.isPending}
-                            testID="register-create-account-button"
+                            onPress={handlePressLogIn}
+                            disabled={loginMutation.isPending}
+                            testID="login-submit-button"
                         >
-                            {registerMutation.isPending ? (
+                            {loginMutation.isPending ? (
                                 <ActivityIndicator color={Colors.cream50} />
                             ) : (
-                                <Text style={styles.submitButtonText}>Create account</Text>
+                                <Text style={styles.submitButtonText}>Log in</Text>
                             )}
                         </Pressable>
 
-                        {registerMutation.isError ? (
+                        {loginMutation.isError ? (
                             <Text
                                 style={styles.errorText}
-                                testID="register-error-message"
+                                testID="login-error-message"
                             >
-                                {registerMutation.error.message}
+                                {loginMutation.error.message}
                             </Text>
                         ) : null}
                     </>
                 )}
 
                 <Text style={styles.footer}>
-                    Already have an account?{' '}
+                    Don&apos;t have an account?{' '}
                     <Text
                         style={styles.footerLink}
-                        onPress={handlePressLogIn}
-                        testID="register-login-link"
+                        onPress={handlePressSignUp}
+                        testID="login-sign-up-link"
                     >
-                        Log in
+                        Sign up
                     </Text>
                 </Text>
             </ScrollView>

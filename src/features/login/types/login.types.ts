@@ -1,12 +1,11 @@
 import type { User } from '@/types/user.types';
 
-export interface RegisterPayload {
-    name: string;
+export interface LoginPayload {
     email: string;
     password: string;
 }
 
-export interface RegisterResponse {
+export interface LoginResponse {
     accessToken: string;
     user: User;
 }

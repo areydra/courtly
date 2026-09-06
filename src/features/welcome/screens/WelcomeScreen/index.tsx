@@ -24,6 +24,10 @@ export default function WelcomeScreen() {
         router.push('/register');
     }, [router]);
 
+    const handlePressLogIn = useCallback(() => {
+        router.push('/login');
+    }, [router]);
+
     return (
         <View
             style={styles.screen}
@@ -96,6 +100,7 @@ export default function WelcomeScreen() {
                             styles.secondaryButton,
                             pressed && styles.secondaryButtonPressed,
                         ]}
+                        onPress={handlePressLogIn}
                         testID="welcome-log-in-button"
                     >
                         <Text style={styles.secondaryButtonText}>Log in</Text>
