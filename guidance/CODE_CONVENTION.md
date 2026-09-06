@@ -274,6 +274,20 @@ const RatingBadge: React.FC<RatingBadgeProps> = ({
 - **Reduced code duplication**: Cleaner, more maintainable codebase
 - **Better testing**: Test the component once, all usage sites benefit
 
+### Utility Function Placement
+
+The same DRY reasoning above applies to plain utility/helper functions, not just components. Before adding one, check whether it has a reasonable chance of being used by another file.
+
+**Share it when it's generic and reuse is plausible:**
+- Formatting, parsing, or validation logic not tied to one screen's presentation (e.g. `capitalize`, `formatRupiah`, the schemas in `src/utils/validation.ts`)
+- Put it in `src/utils/{concern}.ts` if the concern spans features, or `src/features/{feature}/utils/{concern}.ts` if it only makes sense within one feature but is used by more than one file there
+
+**Keep it colocated in the file that uses it when it's single-purpose:**
+- Tied to exactly one consumer, with no realistic reuse (e.g. a one-off string composed only for that component's display copy)
+- Local render-helpers referenced only within one component (see Standard Component Structure below)
+
+Extract as soon as a second consumer actually appears — don't leave a now-duplicated helper sitting in two files.
+
 ---
 
 ## Component Patterns
