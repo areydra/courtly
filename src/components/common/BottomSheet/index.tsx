@@ -31,6 +31,12 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(function Bottom
         }
     }, [isOpen]);
 
+    useEffect(function dismissOnUnmount() {
+        return () => {
+            sheetRef.current?.dismiss();
+        };
+    }, []);
+
     return (
         <BottomSheetModal
             ref={sheetRef}

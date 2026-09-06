@@ -167,7 +167,8 @@ export default function BookingScreen({ facilityId, facilityName }: BookingScree
     }, []);
 
     const handleSeeBookings = useCallback(() => {
-        router.push('/my-bookings');
+        setFlowStep('booking');
+        setTimeout(() => router.push('/my-bookings'), 400);
     }, [router]);
 
     return (
