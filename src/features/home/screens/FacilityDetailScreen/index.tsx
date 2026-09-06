@@ -106,7 +106,11 @@ export default function FacilityDetailScreen({ id }: FacilityDetailScreenProps) 
                 </View>
             </ScrollView>
 
-            <BookingFooter startingPrice={startingPrice} />
+            <BookingFooter
+                facilityId={facility.id}
+                facilityName={facility.name}
+                startingPrice={startingPrice}
+            />
         </View>
     );
 }
