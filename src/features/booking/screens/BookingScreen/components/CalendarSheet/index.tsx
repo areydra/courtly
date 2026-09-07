@@ -1,8 +1,11 @@
+import { useEffect, useRef } from 'react';
+
 import { Pressable, Text, View } from 'react-native';
 import DateTimePicker from '@expo/ui/community/datetime-picker';
 
 import BottomSheet from '@/components/common/BottomSheet';
 import { Colors } from '@/constants/theme';
+import { fromUtcMidnight, toUtcMidnight } from '@/features/booking/utils/date';
 
 import styles from './styles';
 import CloseIcon from '../CloseIcon';
@@ -15,7 +18,33 @@ interface CalendarSheetProps {
     onSelectDate: (date: Date) => void;
 }
 
+// Android's native picker fires onValueChange once on mount with its own initial value,
+// before any user interaction. A real tap can't land within this window, so ignore it.
+const MOUNT_SYNC_GUARD_MS = 500;
+
 export default function CalendarSheet({ isOpen, onClose, selectedDate, minimumDate, onSelectDate }: CalendarSheetProps) {
+    const isReadyRef = useRef(false);
+
+    useEffect(function guardAgainstInitialSyncEvent() {
+        if (!isOpen) {
+            isReadyRef.current = false;
+            return;
+        }
+
+        const timer = setTimeout(() => {
+            isReadyRef.current = true;
+        }, MOUNT_SYNC_GUARD_MS);
+
+        return () => clearTimeout(timer);
+    }, [isOpen]);
+
+    const handleValueChange = (_event: unknown, date: Date) => {
+        if (!isReadyRef.current) {
+            return;
+        }
+        onSelectDate(fromUtcMidnight(date));
+    };
+
     return (
         <BottomSheet
             isOpen={isOpen}
@@ -34,13 +63,13 @@ export default function CalendarSheet({ isOpen, onClose, selectedDate, minimumDa
             </View>
 
             <DateTimePicker
-                value={selectedDate}
+                value={toUtcMidnight(selectedDate)}
                 mode="date"
                 display="inline"
                 presentation="inline"
-                minimumDate={minimumDate}
+                minimumDate={toUtcMidnight(minimumDate)}
                 accentColor={Colors.teal700}
-                onValueChange={(_event, date) => onSelectDate(date)}
+                onValueChange={handleValueChange}
                 testID="booking-calendar-picker"
             />
         </BottomSheet>

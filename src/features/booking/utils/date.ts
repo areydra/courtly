@@ -15,3 +15,13 @@ export function parseIsoDate(iso: string): Date {
 export function formatDateLabel(date: Date): string {
     return `${MONTH_LABELS[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
 }
+
+// Android's native date picker converts dates through UTC internally, so pin values to UTC
+// midnight to avoid it rolling the calendar day back/forward by one in positive/negative UTC offsets.
+export function toUtcMidnight(date: Date): Date {
+    return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+}
+
+export function fromUtcMidnight(date: Date): Date {
+    return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
+}
