@@ -1,8 +1,8 @@
-import { forwardRef, useEffect, useRef } from 'react';
+import { forwardRef, useEffect, useRef, useState } from 'react';
 import type { ComponentRef, ReactNode } from 'react';
 
 import BottomSheetModal, { BottomSheetView } from '@expo/ui/community/bottom-sheet';
-import { View } from 'react-native';
+import { useWindowDimensions, View } from 'react-native';
 
 import styles from './styles';
 
@@ -22,20 +22,39 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(function Bottom
     ref,
 ) {
     const sheetRef = useRef<ComponentRef<typeof BottomSheetModal>>(null);
+    const { width } = useWindowDimensions();
+    const [hasOpenedOnce, setHasOpenedOnce] = useState(isOpen);
+    const hasOpenedOnceRef = useRef(isOpen);
+
+    useEffect(function mountNativeSheetOnFirstOpen() {
+        if (isOpen && !hasOpenedOnceRef.current) {
+            hasOpenedOnceRef.current = true;
+            setHasOpenedOnce(true);
+        }
+    }, [isOpen]);
 
     useEffect(function syncSheetVisibility() {
+        if (!hasOpenedOnce) {
+            return;
+        }
         if (isOpen) {
             sheetRef.current?.present();
         } else {
             sheetRef.current?.dismiss();
         }
-    }, [isOpen]);
+    }, [isOpen, hasOpenedOnce]);
 
     useEffect(function dismissOnUnmount() {
         return () => {
-            sheetRef.current?.dismiss();
+            if (hasOpenedOnceRef.current) {
+                sheetRef.current?.dismiss();
+            }
         };
     }, []);
+
+    if (!hasOpenedOnce) {
+        return null;
+    }
 
     return (
         <BottomSheetModal
@@ -45,7 +64,7 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(function Bottom
             onDismiss={onClose}
             backgroundStyle={styles.background}
         >
-            <BottomSheetView style={styles.content}>
+            <BottomSheetView style={[styles.content, { width }]}>
                 <View
                     style={styles.contentInner}
                     testID={testID}
