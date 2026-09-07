@@ -2,7 +2,7 @@
   "expo": {
     "name": "courtly",
     "slug": "courtly",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "scheme": "courtly",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -12,6 +12,7 @@
     },
     "android": {
       "package": "com.courtly.app",
+      "versionCode": 2,
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/android-icon-foreground.png",
